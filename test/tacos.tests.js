@@ -31,19 +31,25 @@ describe('POST /tacos', function() {
         })
         .expect('Location', '/tacos')
         .expect(302, done);
-  });
+    });
 });
 
 describe('PUT /tacos/:id', function() {
-  it('should send a success message and return a 200 response', function(done) {
-    request(app).put('/tacos/1')
-      .end(function(err, response) {
-        expect(response.statusCode).to.equal(200);
-        expect(response.body).to.have.property('msg');
-        expect(response.body.msg).to.equal('success');
-        done();
-      });
-  });
+  it('should send a success message and return a 200 response',
+    function(done) {
+      request(app).put('/tacos/1')
+        .type('form')
+        .send({
+          name: 'Gordita Crunch',
+          amount: 2000
+        })
+        .end(function(err, response) {
+          expect(response.statusCode).to.equal(200);
+          expect(response.body).to.have.property('msg');
+          expect(response.body.msg).to.equal('success');
+          done();
+        });
+    });
 });
 
 describe('GET /tacos/:id/edit', function() {
@@ -59,7 +65,8 @@ describe('GET /tacos/:id', function() {
 });
 
 describe('DELETE /tacos/:id', function() {
-  it('should delete a taco and send a success message and return 200', function(done) {
+  it('should delete a taco and send a success message and return 200',
+    function(done) {
       request(app).delete('/tacos/1')
         .end(function(err, response) {
             expect(response.statusCode).to.equal(200);
@@ -71,7 +78,7 @@ describe('DELETE /tacos/:id', function() {
 });
 
 describe('DELETE /tacos/:id', function() {
-  it('should delete a taco and send an error message and return 404',
+  it('should look for a taco and send an error message and return 404',
     function(done) {
       request(app).delete('/tacos/1')
         .end(function(err, response) {
